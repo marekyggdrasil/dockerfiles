@@ -52,9 +52,12 @@ RUN curl -sSL ${MAGENTO_URL} -o ${MAGENTO_FILE} \
     && /etc/init.d/apache2 restart \
     && composer install
 WORKDIR /var/www
-RUN    echo "* * * * * /usr/local/bin/php /var/www/html/bin/magento cron:run | grep -v "Ran jobs by schedule" >> /var/www/html/var/log/magento.cron.log" >> mycron\
+RUN echo "* * * * * /usr/local/bin/php /var/www/html/bin/magento cron:run | grep -v "Ran jobs by schedule" >> /var/www/html/var/log/magento.cron.log" >> mycron\
     && echo "* * * * * /usr/local/bin/php /var/www/html/update/cron.php >> /var/www/html/var/log/update.cron.log" >> mycron \
     && echo "* * * * * /usr/local/bin/php /var/www/html/bin/magento setup:cron:run >> /var/www/html/var/log/setup.cron.log" >> mycron \
     && crontab -u www-data mycron \
-    && rm mycron \
-    && cron
+    && rm mycron
+
+COPY script.sh .
+RUN chown www-data:www-data script.sh
+ENTRYPOINT ./script.sh
