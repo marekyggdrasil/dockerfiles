@@ -37,7 +37,7 @@ RUN set -xe \
                                       libpng12-dev \
                                       libpng12-dev \
     && rm -rf /var/lib/apt/lists/*
-RUN echo 'always_populate_raw_post_data = -1\nmax_execution_time = 240\nmax_input_vars = 1500\nupload_max_filesize = 32M\npost_max_size = 32M\nmemory_limit = 1148M' > /usr/local/etc/php/conf.d/typo3.ini
+RUN echo 'always_populate_raw_post_data = -1\nmax_execution_time = 240\nmax_input_vars = 1500\nupload_max_filesize = 32M\npost_max_size = 32M\nmemory_limit = 2048M' > /usr/local/etc/php/conf.d/typo3.ini
 WORKDIR /usr/src
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 WORKDIR /var/www/html
